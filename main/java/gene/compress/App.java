@@ -36,12 +36,12 @@ public class App
 
         //File that holds the file path
         //File file = new File("F:\\geneExp\\geneName\\chr1_name.fa");
-        File file = new File("/home/gene/"+Name+"/"+Name+"_hdfs_name.fa");
+        File file = new File("/home/gene/input/"+Name+"_hdfs_name.fa");//author's file path.
         BufferedReader br = new BufferedReader(new FileReader(file));
 
         //Add a distributed cache file, which is obtained and processed in the setup method of the map class.
         //job.addCacheFile(new Path("F:\\geneExp\\chr1\\chr1.fa").toUri());
-        job.addCacheFile(new Path("hdfs://master:9000/input/"+Name+"/"+Name+".fa").toUri());
+        job.addCacheFile(new Path("hdfs://master:9000/input/"+Name+"/"+Name+".fa").toUri());//hadoop filesystem distributed cache
         job.setInputFormatClass(KeyValueTextInputFormat.class);
         job.setMapperClass(geneMap.class);
         job.setNumReduceTasks(0);
