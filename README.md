@@ -3,16 +3,14 @@ Distributed biological sequences Compression
 
 The code in the compress folder is the compression code of FastDRC. 
 
-
-
-The author saves the HDFS mapping path of the sequence file into the file and reads the path through file reading. 
+The author saves the HDFS mapping path of the sequence file into the file and reads the path through file reading. Your path may be different, so you need to modify the path.
 
 Place each path file in a folder with the corresponding serial number, such as the chr1 folder, and compress all chr1 files at runtime using the command {hadoop jar}+ [jar package Path]+ [chr1](your sequence number) .
 
 The file name is string processed in the code, so if you do not use the 1000Project data set, you need to change the string processing rules for the file name.
 
-If you need to change the path, please enter the compress/App.class, and change this parameters.
-You need to set the input fragment size in the "mapreduce.input.fileinputformat.split.minsize" part of App.class; 
+If you need to change the path, please open the file compress/App.class, and change this parameters.
+You may need to set the input fragment size in the "mapreduce.input.fileinputformat.split.minsize" part of App.class; 
 set the distributed cache path of HDFS in addCacheFile() method ; 
 set the input path collection in addInputPaths() method; set the output path in outPath() method.
 
