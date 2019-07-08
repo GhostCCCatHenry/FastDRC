@@ -1,5 +1,6 @@
 # FastDRC
 Distributed biological sequences Compression
+
 The code in the compress folder is the compression code of FastDRC. In use, you need to set the input fragment size in the "mapreduce.input.fileinputformat.split.minsize" part of App.class; 
 set the distributed cache path of HDFS in addCacheFile. ; 
 set the input path collection in addInputPaths; set the output path in outPath.
