@@ -3,6 +3,7 @@ Distributed biological sequences Compression
 The code in the compress folder is the compression code of FastDRC. In use, you need to set the input fragment size in the "mapreduce.input.fileinputformat.split.minsize" part of App.class; 
 set the distributed cache path of HDFS in addCacheFile. ; 
 set the input path collection in addInputPaths; set the output path in outPath.
+
 The file name is string processed in the code, so if you do not use the 1000Project data set, you need to change the string processing rules for the file name.
 After the setting is completed, the three java files are grouped into jars (you can also set the linux local path to run directly) into the cloud platform such as the server, and use the hadoop jar command to run.
 
