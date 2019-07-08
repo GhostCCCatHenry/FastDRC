@@ -11,8 +11,8 @@ The file name is string processed in the code, so if you do not use the 1000Proj
 
 If you need to change the path, please open the file compress/App.class, and change this parameters.
 You may need to set the input fragment size in the "mapreduce.input.fileinputformat.split.minsize" part of App.class; 
-set the distributed cache path of HDFS in addCacheFile() method ; 
-set the input path collection in addInputPaths() method; set the output path in outPath() method.
+set the distributed cache path of HDFS in method addCacheFile(); 
+set the input path collection in method addInputPaths(); set the output path in method outPath().
 
 After the setting is completed, the three java files are grouped into jars (you can also set the linux local path to run directly) into the cloud platform such as the server, and use the command {hadoop jar} to run.
 
