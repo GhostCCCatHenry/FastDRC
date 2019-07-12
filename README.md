@@ -23,3 +23,8 @@ Decompression code for FastDRC
 Compressed code is for compression of large amounts of genetic data, while decompressed code is only for a single compressed sequence.
 
 Make this folder a jar package and use the command {java jar} +[jar package name]+[Compressed sequence path]+[Reference sequence path]+ [Output path] command runs, and the path should be the local path.
+
+
+# pom.xml
+
+pom.xml is used to create maven projects from which to import hadoop dependencies and version information. Create a maven project through the IDE, paste this POM file into the corresponding POM of the project, and automatically import all the dependent libraries of the project.
