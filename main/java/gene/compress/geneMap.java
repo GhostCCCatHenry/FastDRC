@@ -28,8 +28,6 @@ public class geneMap extends Mapper<Text,Text,BytesWritable,NullWritable> {
     private BytesWritable byt;
 
     //Compress required variable
-
-
     private  int kMerLen = 12;//K-mer read length k
     private  int kMer_bit_num = 2 * kMerLen;
     private  int hashTableLen = 1 << kMer_bit_num;
@@ -143,7 +141,7 @@ public class geneMap extends Mapper<Text,Text,BytesWritable,NullWritable> {
         }
     }
 
-    private  void searchMatchPosVec() {    //二次压缩小写字符二元组
+    private  void searchMatchPosVec() {    //Secondary compression of lowercase character vectors
         for (int x = 0; x < tar_low_vec_len; x ++) {
             diff_low_loc[x] = 0;
         }
@@ -171,7 +169,6 @@ public class geneMap extends Mapper<Text,Text,BytesWritable,NullWritable> {
             diff_low_vec_length[diff_low_vec_len ++] = tar_low_vec_length[i ++];
         }
 
-        //diff_low_loc[i]可能是连续的数字，再次压缩成二元组
         if (tar_low_vec_len > 0) {
             int cnt = 1;
             diff_pos_loc_begin[diff_pos_loc_len] = diff_low_loc[0];
@@ -354,7 +351,7 @@ public class geneMap extends Mapper<Text,Text,BytesWritable,NullWritable> {
 
         SetoutPut(context);
         Configuration conf = context.getConfiguration();
-        //分布式缓存读文件
+        //Read reference file in distributed cache!
         URI[] cacheFile = context.getCacheFiles();
         Path file_path = new Path(cacheFile[0].toString());
         FSDataInputStream inputCache = FileSystem.get(cacheFile[0], conf).open(file_path);
@@ -400,7 +397,7 @@ public class geneMap extends Mapper<Text,Text,BytesWritable,NullWritable> {
 
         br.close();
         inputCache.close();
-        //hash编码
+        //Hash coding
         kMerHashingConstruct();
 
     }
@@ -468,7 +465,7 @@ public class geneMap extends Mapper<Text,Text,BytesWritable,NullWritable> {
 
     @Override
     protected void cleanup(Context context) throws IOException, InterruptedException {
-        //这些只能执行一次，在map迭代完成之后执行
+        //Execute only once, execute after function map
         if (!flag) {
             tar_low_vec_length[tar_low_vec_len++] = letters_len;
         }
@@ -482,10 +479,6 @@ public class geneMap extends Mapper<Text,Text,BytesWritable,NullWritable> {
         }
 
         //设置bit输出类中的MultipleOutputs
-        //MyRecordWriter my = (MyRecordWriter) new myMultipleOutput().getRecordWriter(context);
-
-        //BitFile.setWriter(my);
-
         searchMatchPosVec();
 
         saveOtherData();
@@ -501,7 +494,7 @@ public class geneMap extends Mapper<Text,Text,BytesWritable,NullWritable> {
         bos.close();
         BitFile.setLen(0);
 
-        System.out.println("total耗费时间为" + (System.currentTimeMillis() - startTime) + "ms");
+        System.out.println("Consume time" + (System.currentTimeMillis() - startTime) + "ms");
     }
 
 
