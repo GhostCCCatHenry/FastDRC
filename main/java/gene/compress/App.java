@@ -35,12 +35,10 @@ public class App
         job.setJarByClass(App.class);
 
         //File that holds the file path
-        //File file = new File("F:\\geneExp\\geneName\\chr1_name.fa");
         File file = new File("/home/gene/input/"+Name+"_hdfs_name.fa");//author's file path.
         BufferedReader br = new BufferedReader(new FileReader(file));
 
         //Add a distributed cache file, which is obtained and processed in the setup method of the map class.
-        //job.addCacheFile(new Path("F:\\geneExp\\chr1\\chr1.fa").toUri());
         job.addCacheFile(new Path("hdfs://master:9000/input/"+Name+"/"+Name+".fa").toUri());//hadoop filesystem distributed cache
         job.setInputFormatClass(KeyValueTextInputFormat.class);
         job.setMapperClass(geneMap.class);
@@ -51,19 +49,20 @@ public class App
         //Get the input path from the file and define multiple outputs
         while ((str=br.readLine())!=null){
             KeyValueTextInputFormat.addInputPaths(job,str);
+            //The way to split strings for different file names should be different
             String k1[]=str.split("_");
             String k2[]=k1[4].split("\\.");
             MultipleOutputs.addNamedOutput(job, k2[3]+k2[4], SequenceFileOutputFormat.class,BytesWritable.class, NullWritable.class);
         }
 
         //Check if there is already an output path on hdfs, if it is, delete it in advance.
-        //Path outPath=new Path("F:\\geneExp\\out");
         Path outPath=new Path("/out/"+Name);
         FileSystem fs =FileSystem.get(conf);
         if(fs.exists(outPath)){
             fs.delete(outPath,true);
         }
         FileOutputFormat.setOutputPath(job,outPath);
+        LazyOutputFormat.setOutputFormatClass(job, SequenceFileOutputFormat.class);//stop to output empty files(part-00000 etc.)
         job.waitForCompletion(true);
         System.out.println("all maps time consuming" + (System.currentTimeMillis() - startTime) + "ms");
     }
